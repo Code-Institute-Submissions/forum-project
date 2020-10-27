@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+{% for topic in topics %}
+<a id="topic_title" name="topic_title "href="{{ url_for('current_topic', topic_id = topic._id)}}"><h3>{{ topic.topic_title}}</h3></a>
+{% endfor %}
+{% endblock %}
