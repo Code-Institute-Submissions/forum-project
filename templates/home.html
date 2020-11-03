@@ -1,6 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
+<ul class="collapsible expandable">
 {% for topic in topics %}
-<a id="topic_title" name="topic_title "href="{{ url_for('current_topic', topic_id = topic._id)}}"><h3>{{ topic.topic_title}}</h3></a>
+<a name="topic_title "href="{{ url_for('current_topic', topic_id = topic._id)}}"><h3>{{ topic.topic_title}}</h3></a>
+    <li>
+      <div class="collapsible-header"><i class="material-icons"></i>{{topic.topic_title}}</div>
+      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    </li>
 {% endfor %}
+</ul>
+{% endblock %}
+{% block scripts %}
+    <script>
+document.addEventListener("DOMContentLoaded", (event) => {
+    var elem = document.querySelector('.collapsible.expandable');
+    var instance = M.Collapsible.init(elem, {
+    accordion: false
+})});        
+</script>
 {% endblock %}

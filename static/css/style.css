@@ -1,0 +1,14 @@
+.test-bg-color-1{
+    background-color: red;
+}
+.test-bg-color-2{
+    background-color: blue;
+}
+.avatar-picture{
+    width: 100%;   
+}
+
+.center{
+    align-items: center;
+    background-color: red;
+}
