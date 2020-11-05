@@ -1,14 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
+{% for catogory in catogories%}
 <ul class="collapsible expandable">
-{% for topic in topics %}
-<a name="topic_title "href="{{ url_for('current_topic', topic_id = topic._id)}}"><h3>{{ topic.topic_title}}</h3></a>
     <li>
-      <div class="collapsible-header"><i class="material-icons"></i>{{topic.topic_title}}</div>
-      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+    <div class="collapsible-header">
+        <i class="material-icons"></i>
+        <a name="catogory_title" href="{{url_for('catogory', catogory_id = catogory._id)}}">
+           {{catogory.catogory}}
+        </a>
+    </div>
+    {% for topic in topics%}    
+        {% if topic.catogory == catogory.catogory %}
+        <div class="collapsible-body">
+            <a name="topic_title "href="{{ url_for('current_topic', topic_id = topic._id)}}"><p>{{ topic.topic_title}}</p></a>
+        </div>
+        {% endif%}
+    {% endfor %}
     </li>
-{% endfor %}
 </ul>
+{% endfor %}
+
 {% endblock %}
 {% block scripts %}
     <script>

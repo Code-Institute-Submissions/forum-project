@@ -1,6 +1,6 @@
 import os
 from flask import (Flask, flash, render_template,
-     redirect, request, session, url_for)
+                   redirect, request, session, url_for)
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,11 +16,20 @@ print(os.environ.get("MONGO_URI"))
 
 mongo = PyMongo(app)
 
+
 @app.route("/")
 @app.route("/home")
 def home():
+    catogories = list(mongo.db.catogories.find())
     topics = list(mongo.db.Topics.find())
-    return render_template("home.html", topics=topics)
+    return render_template("home.html", topics=topics, catogories=catogories)
+
+
+@app.route("/catogory/<catogory_id>")
+def catogory(catogory_id):
+    catogories = list(mongo.db.catogories.find({"_id": ObjectId(catogory_id)}))
+    topics = list(mongo.db.Topics.find(({"_id": ObjectId(catogory_id)})))
+    return render_template("catogory.html", catogory=catogories, topics=topics)
 
 
 @app.route("/current_topic/<topic_id>", methods=['GET', 'POST'])
@@ -34,7 +43,6 @@ def current_topic(topic_id):
             }
             mongo.db.comments.insert_one(comment)
             return redirect(url_for('home'))
-
         else:
             return redirect(url_for('login'))
 
@@ -101,10 +109,10 @@ def login():
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
     # grab the session user's username from db
-    username = mongo.db.users.find_one(
-         {"username": session["user"]})["username"]
-
     if session["user"]:
+        username = mongo.db.users.find_one(
+             {"username": session["user"]})["username"]
+        print(username)
         return render_template("profile.html", username=username)
 
     return redirect(url_for("login"))

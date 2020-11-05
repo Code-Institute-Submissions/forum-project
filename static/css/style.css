@@ -1,14 +1,14 @@
-.test-bg-color-1{
-    background-color: red;
-}
-.test-bg-color-2{
-    background-color: blue;
-}
 .avatar-picture{
     width: 100%;   
 }
 
+.user-avatar{
+    border-style: solid dotted solid solid;
+    border-color: black;
+    border-width: 1px;
+}
+
 .center{
     align-items: center;
-    background-color: red;
 }
+

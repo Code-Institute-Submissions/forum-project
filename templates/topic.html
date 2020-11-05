@@ -5,27 +5,36 @@
 {% endfor %}
 {% for comment in comments %}
 <div class="row">
-    <div class="col s1 user-avatar test-bg-color-1"><p><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture"></p></div>
-    <div class="col s11 comments test-bg-color-2 comments">
-    <p>{{comment.comment_text}}</p>
+    <div class="col s1 user-avatar"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
+        <div class="row">
+            <div class="col s12 center">{{comment.user_id}}</div>
+        </div>
+    </div>
+    <div class="col s11 comments comments">
+    <pre>{{comment.comment_text}}</pre>
     </div>
 </div>
 
 {% endfor %}
 <div class="row">
-    <div class="s12">
+    <div class="col s12">
+        {% if session['user'] %}
         <h4>Write a comment!</h4>
-    </div>
-    <form class="col s12" method="POST">
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="new_comment" name="new_comment" class="materialize-textarea" data-length="2000"></textarea>
-                <label for="new_comment">Textarea</label>
+        <form class="col s12" method="POST">
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea id="new_comment" name="new_comment" class="materialize-textarea" data-length="2000"></textarea>
+                    <label for="new_comment">Textarea</label>
+                </div>
             </div>
-        </div>
         <button class="btn waves-effect waves-light" type="submit" name="action">Submit
             <i class="material-icons right">send</i>
-    </button>
-    </form>
+        </button>
+        </form>
+        {% else %}
+        <p>You must be logged in to post a comment.<a href="{{url_for('login')}}">Log in here!</a></p>
+        {% endif %}    
+    </div>
+    
 </div>
 {% endblock %}
