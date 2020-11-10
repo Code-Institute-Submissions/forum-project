@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://kit.fontawesome.com/038155ffd3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <title>Insert title</title>
 </head>
@@ -14,11 +15,11 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 {% if session['user'] %}
                 <li><a href="{{url_for('logout')}}">Log out</a></li>
+                <li><a href="{{ url_for('profile', username=session['user']) }}" >Profile</a></li>
                 {% else %}                
                 <li><a href="{{url_for('login')}}">Log in</a></li>
-                {% endif %}
                 <li><a href="{{url_for('register')}}">Register</a></li>
-                <li><a href="{{ url_for('profile', username=session['user']) }}" >Profile</a></li>
+                {% endif %}            
             </ul>
         </div>
     </nav>

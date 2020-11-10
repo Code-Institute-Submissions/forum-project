@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for catogory in catogory%}
-    <h3>{{ catogory.catogory}}</h3>
+    <h3 class="capitalize">{{ catogory.catogory}}</h3>
+    {% for topic in topics %}
+        {% if topic.catogory == catogory.catogory %}
+        <h4>{{topic.topic_title}}</h4>
+        {% endif %}
+    {% endfor %}
+    <a href="{{url_for('create_topic')}}" class="waves-effect waves-light btn-large">Create a Topic!</a>
 {% endfor %}
 {% endblock %}
