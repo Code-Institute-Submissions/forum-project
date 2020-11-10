@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from flask import (Flask, flash, render_template,
                    redirect, request, session, url_for)
 from flask_pymongo import PyMongo
@@ -28,7 +29,7 @@ def home():
 @app.route("/catogory/<catogory_id>")
 def catogory(catogory_id):
     catogories = list(mongo.db.catogories.find({"_id": ObjectId(catogory_id)}))
-    topics = list(mongo.db.Topics.find(({"_id": ObjectId(catogory_id)})))
+    topics = list(mongo.db.Topics.find())
     return render_template("catogory.html", catogory=catogories, topics=topics)
 
 
@@ -36,12 +37,18 @@ def catogory(catogory_id):
 def current_topic(topic_id):
     if request.method == 'POST':
         if session['user']:
+            now = datetime.now()
             comment = {
                 "comment_text": request.form.get("new_comment"),
                 "user_id": session['user'],
-                "Topics_id": ObjectId(topic_id)
+                "Topics_id": ObjectId(topic_id),
+                "last_edited": now
             }
             mongo.db.comments.insert_one(comment)
+            mongo.db.Topics.update(
+                {"_id": ObjectId(topic_id)},
+                {"$set": {"last_edited": now},
+                 "$inc": {"posts": 1}})
             return redirect(url_for('home'))
         else:
             return redirect(url_for('login'))
@@ -50,6 +57,41 @@ def current_topic(topic_id):
     comments = mongo.db.comments.find({"Topics_id": ObjectId(topic_id)})
     return render_template('topic.html', topicinfo=current_topic_id,
                            comments=comments)
+
+
+@app.route('/create_topic', methods=['GET', 'POST'])
+def create_topic():
+    if request.method == 'POST':
+        existing_topic = mongo.db.Topics.find_one(
+            {"topic_title": request.form.get("topic_title")})
+
+        now = datetime.now()
+
+        if existing_topic:
+            flash("Topic already exists")
+            return redirect(url_for("create_topic"))
+
+        new_topic = {
+            "catogory": request.form.get("catogory"),
+            "topic_title": request.form.get("topic_title"),
+            "username": session['user'],
+            "last_edited": now,
+            "posts": 1
+        }
+
+        mongo.db.Topics.insert_one(new_topic)
+        objectid = mongo.db.Topics.find_one(new_topic)['_id']
+        new_comment = {
+            "comment_text": request.form.get("new_comment"),
+            "user_id": session['user'],
+            "Topics_id": ObjectId(objectid),
+            "last_edited": now
+        }
+
+        mongo.db.comments.insert_one(new_comment)
+        return redirect(url_for('home'))
+    catogories = mongo.db.catogories.find()
+    return render_template('create_topic.html', catogories=catogories)
 
 
 @app.route("/register", methods=["GET", "POST"])

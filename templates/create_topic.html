@@ -1,1 +1,36 @@
-{% extends base.html %}
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Create Topic</h2>
+    <div class="row">
+        <form method="POST" class="input-field col s12">
+            <!-- select catogory -->
+            <select name="catogory" id="catogory">
+                <option  disabled required>Choose your option</option>
+                {% for catogory in catogories %}
+                <option name="catogory" value="{{catogory.catogory}}">{{catogory.catogory}}</option>
+                {% endfor %}
+            </select>
+            <div>
+                <input placeholder="your topic title" id="topic_title" name="topic_title" type="text" class="validate" required>
+                <label for="topic_title">Topic title</label>
+            </div>
+            <div>                
+                <textarea id="new_comment" name="new_comment" class="materialize-textarea" data-length="2000" required></textarea>
+                <label for="new_comment">Textarea</label>
+            </div>
+            <div>   
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+  });        
+</script>
+{% endblock %}

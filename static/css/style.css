@@ -1,14 +1,65 @@
-.avatar-picture{
-    width: 100%;   
+/*--- text transform/center ---*/
+.center{
+    align-self: center;
 }
 
-.user-avatar{
-    border-style: solid dotted solid solid;
-    border-color: black;
-    border-width: 1px;
+.capitalize{
+    text-transform: capitalize;
+}
+
+.inline-block{
+    display: inline-block;
 }
 
 .center{
     align-items: center;
 }
 
+.full-width{
+    width: 100%;
+}
+
+/*--- home ---*/
+
+.topic-title{
+    width: 50%
+}
+
+.topic-info{
+    width: 25%
+}
+
+.topic-info-secondary{
+    width: 12.5%
+}
+
+.avatar-picture{
+    width: 50%;
+}
+
+/*--- topic.html ---*/
+
+.posts{
+    padding-top: 50px;
+}
+
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.comment-text{
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+.comment-username{
+    font-size: 0.9em;
+}
+
+.last-edited{
+    font-size: 0.7em;
+}

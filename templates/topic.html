@@ -1,40 +1,49 @@
 {% extends 'base.html'%}
-{% block content%}
+{% block content %}
 {% for topicinf in topicinfo %}
-<h3>{{ topicinf.topic_title}}</h3>
-{% endfor %}
-{% for comment in comments %}
 <div class="row">
-    <div class="col s1 user-avatar"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
-        <div class="row">
-            <div class="col s12 center">{{comment.user_id}}</div>
-        </div>
-    </div>
-    <div class="col s11 comments comments">
-    <pre>{{comment.comment_text}}</pre>
+    <div class="col s10 offset-s2 capitalize"><h3>{{ topicinf.topic_title}}</h3>
     </div>
 </div>
-
+{% endfor %}
+{% for comment in comments %}
+<div class="row posts">
+    <div class="col s2 user-avatar center"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
+        <div class="row">
+            <div class="col s12 center comment-username">{{comment.user_id}}</div>
+        </div>
+    </div>
+    <div class="col s10 comments">
+        <div class="row">
+        <pre class="col s10 comment-text full-width">{{comment.comment_text}}</pre>
+        {% if session['user'] == comment.user_id %}
+        <a class="col s1" href=""><i class="fas fa-pencil-alt"></i></a>
+        <a class="col s1" href=""><i class="fas fa-dumpster"></i></a>
+        {% endif %}
+    </div>
+    </div>
+</div>
+<p class="center last-edited"><i>{{comment.last_edited.strftime('%d/%m/%Y %H:%M')}}</i></p>
+<hr>
 {% endfor %}
 <div class="row">
     <div class="col s12">
         {% if session['user'] %}
         <h4>Write a comment!</h4>
-        <form class="col s12" method="POST">
+        <form method="POST">
             <div class="row">
                 <div class="input-field col s12">
                     <textarea id="new_comment" name="new_comment" class="materialize-textarea" data-length="2000"></textarea>
                     <label for="new_comment">Textarea</label>
                 </div>
             </div>
-        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-            <i class="material-icons right">send</i>
-        </button>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                <i class="material-icons right">send</i>
+            </button>
         </form>
         {% else %}
         <p>You must be logged in to post a comment.<a href="{{url_for('login')}}">Log in here!</a></p>
         {% endif %}    
     </div>
-    
 </div>
 {% endblock %}
