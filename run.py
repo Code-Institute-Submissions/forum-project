@@ -53,23 +53,25 @@ def current_topic(topic_id):
         else:
             return redirect(url_for('login'))
 
+    users = list(mongo.db.users.find())
     current_topic_id = mongo.db.Topics.find({"_id": ObjectId(topic_id)})
     comments = mongo.db.comments.find({"Topics_id": ObjectId(topic_id)})
     return render_template('topic.html', topicinfo=current_topic_id,
-                           comments=comments)
+                           comments=comments, users=users)
 
 
 @app.route('/create_topic', methods=['GET', 'POST'])
 def create_topic():
     if request.method == 'POST':
+        # checks if topic doesnt already exists
         existing_topic = mongo.db.Topics.find_one(
             {"topic_title": request.form.get("topic_title")})
-
-        now = datetime.now()
 
         if existing_topic:
             flash("Topic already exists")
             return redirect(url_for("create_topic"))
+        # Gets current time +0.00
+        now = datetime.now()
 
         new_topic = {
             "catogory": request.form.get("catogory"),
@@ -80,6 +82,7 @@ def create_topic():
         }
 
         mongo.db.Topics.insert_one(new_topic)
+        # gets topic object ID
         objectid = mongo.db.Topics.find_one(new_topic)['_id']
         new_comment = {
             "comment_text": request.form.get("new_comment"),
@@ -107,7 +110,8 @@ def register():
 
         register = {
             "username": request.form.get("username").lower(),
-            "password": generate_password_hash(request.form.get("password"))
+            "password": generate_password_hash(request.form.get("password")),
+            "user_image": request.form.get("user_image")
         }
         mongo.db.users.insert_one(register)
 

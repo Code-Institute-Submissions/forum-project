@@ -8,7 +8,15 @@
 {% endfor %}
 {% for comment in comments %}
 <div class="row posts">
+    {% for users in users %}
+        {% if comment.user_id == users.username %}
+            {% if users.user_image %}
+    <div class="col s2 user-avatar center"><img src="{{users.user_image}}" alt="avatar picture" class="avatar-picture">
+            {% else %}
     <div class="col s2 user-avatar center"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
+            {% endif%}
+        {% endif %}
+    {% endfor %}
         <div class="row">
             <div class="col s12 center comment-username">{{comment.user_id}}</div>
         </div>
