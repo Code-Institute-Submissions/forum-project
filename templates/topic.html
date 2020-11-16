@@ -5,15 +5,14 @@
     <div class="col s10 offset-s2 capitalize"><h3>{{ topicinf.topic_title}}</h3>
     </div>
 </div>
-{% endfor %}
 {% for comment in comments %}
 <div class="row posts">
     {% for users in users %}
         {% if comment.user_id == users.username %}
             {% if users.user_image %}
-    <div class="col s2 user-avatar center"><img src="{{users.user_image}}" alt="avatar picture" class="avatar-picture">
+                <div class="col s2 user-avatar center"><img src="{{users.user_image}}" alt="avatar picture" class="avatar-picture">
             {% else %}
-    <div class="col s2 user-avatar center"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
+                <div class="col s2 user-avatar center"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
             {% endif%}
         {% endif %}
     {% endfor %}
@@ -25,14 +24,15 @@
         <div class="row">
         <pre class="col s10 comment-text full-width">{{comment.comment_text}}</pre>
         {% if session['user'] == comment.user_id %}
-        <a class="col s1" href=""><i class="fas fa-pencil-alt"></i></a>
-        <a class="col s1" href=""><i class="fas fa-dumpster"></i></a>
+        <a class="col s1" href="{{url_for('edit_comment', comment_id = comment._id)}}"><i class="fas fa-pencil-alt"></i></a>
+        <a class="col s1 modal-trigger btn" href="{{url_for('delete_comment', comment_id = comment._id, topic_id = topicinf._id)}}"><i class="fas fa-dumpster"></i></a>
         {% endif %}
     </div>
     </div>
 </div>
 <p class="center last-edited"><i>{{comment.last_edited.strftime('%d/%m/%Y %H:%M')}}</i></p>
 <hr>
+{% endfor %}
 {% endfor %}
 <div class="row">
     <div class="col s12">
@@ -51,7 +51,26 @@
         </form>
         {% else %}
         <p>You must be logged in to post a comment.<a href="{{url_for('login')}}">Log in here!</a></p>
-        {% endif %}    
+        {% endif %}
     </div>
 </div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Are you sure you want to delete comment?</h4>
+      <p>you are about to delete your comment permanently</p>
+    </div>
+    <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+
+<script>
+    $(document).ready(function(){
+        $(".modal-trigger").click(function(){
+        $('.modal').modal();
+        })
+    });
+</script>
 {% endblock %}

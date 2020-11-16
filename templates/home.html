@@ -36,14 +36,10 @@
                         </tr>                            
                         {% endif%}
                     {% endfor %}
-                    </table>
-                    <a href="{{url_for('catogory', catogory_id = catogory._id)}}">
-                        <span class="right">Want to see more topics about {{catogory.catogory}}?<i class="fas fa-arrow-right"></i></span>
-                    </a>
+                    </table>                   
                 </div>
             </li>
-        {% endfor %}
-        
+        {% endfor %}        
         </ul>
     </div>
 </div>

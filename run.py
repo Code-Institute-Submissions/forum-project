@@ -97,6 +97,39 @@ def create_topic():
     return render_template('create_topic.html', catogories=catogories)
 
 
+@app.route("/edit_comment/<comment_id>", methods=["POST", "GET"])
+def edit_comment(comment_id):
+    current_comment = mongo.db.comments.find_one({"_id": ObjectId(comment_id)})
+    if request.method == "POST":
+        now = datetime.now()
+        updated_comment = request.form.get("comment_text")
+        mongo.db.comments.update(
+            {"_id": ObjectId(comment_id)},
+            {"$set":
+                {
+                    "comment_text": updated_comment,
+                    "last_edited": now
+                }
+            }
+        )
+        flash("Comment has been edited")
+        return redirect(url_for("home"))
+    return render_template("edit_comment.html", comment=current_comment)
+
+
+@app.route("/delete_comment/<comment_id>/<topic_id>")
+def delete_comment(comment_id, topic_id):
+    print(topic_id)
+    now = datetime.now()
+    mongo.db.Topics.update(
+        {"_id": ObjectId(topic_id)},
+        {"$set": {"last_edited": now},
+         "$inc": {"posts": -1}})
+    mongo.db.comments.delete_one({"_id": ObjectId(comment_id)})
+    flash("Comment deleted")
+    return redirect(url_for("home"))
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -170,6 +203,20 @@ def logout():
     flash("You have been logged out")
     session.pop("user")
     return redirect(url_for("login"))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    flash("404 The page you were looking for was not found")
+    # note that we set the 404 status explicitly
+    return redirect(url_for('home'))
+
+
+@app.errorhandler(500)
+def page_not_found2(e):
+    flash("500 The page you were looking for was not found")
+    # note that we set the 404 status explicitly
+    return redirect(url_for('home'))
 
 
 if __name__ == "__main__":
