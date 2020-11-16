@@ -110,7 +110,7 @@ def edit_comment(comment_id):
                     "comment_text": updated_comment,
                     "last_edited": now
                 }
-            }
+             }
         )
         flash("Comment has been edited")
         return redirect(url_for("home"))
@@ -119,7 +119,6 @@ def edit_comment(comment_id):
 
 @app.route("/delete_comment/<comment_id>/<topic_id>")
 def delete_comment(comment_id, topic_id):
-    print(topic_id)
     now = datetime.now()
     mongo.db.Topics.update(
         {"_id": ObjectId(topic_id)},
@@ -189,10 +188,20 @@ def login():
 def profile(username):
     # grab the session user's username from db
     if session["user"]:
-        username = mongo.db.users.find_one(
-             {"username": session["user"]})["username"]
-        print(username)
-        return render_template("profile.html", username=username)
+        current_username = list(mongo.db.users.find(
+             {"username": session["user"]}))
+        user_comments = list(mongo.db.Topics.find({
+                             "username": session["user"]}))
+        print(user_comments)
+        if request.method == "POST":
+            mongo.db.users.update({"username": session['user']},
+                                  {"$set": {"user_image":
+                                   request.form.get("user_image")}})
+            return render_template("profile.html", username=current_username,
+                                   comments=user_comments)
+
+        return render_template("profile.html", username=current_username,
+                               comments=user_comments)
 
     return redirect(url_for("login"))
 

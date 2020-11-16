@@ -1,4 +1,49 @@
 {% extends 'base.html'%}
 {% block content %}
-    <h1>{{username}}</h1>
+{% for user in username %}
+<div class="row">
+    <div class="col s12 m8 offset-m2 center">
+        <h1 class="capitalize">{{user.username}}</h1>
+        {% if user.user_image %}    
+        <img class="half-width center" src="{{user.user_image}}" alt="user_image">
+        {% else %}
+        <img class="half-width center" src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+<div class="col s12">
+    <h4 class="center">Your Topics</h4>
+</div>
+{% if comments %}
+    {% for comment in comments %}
+    <div class="col s12">
+       <p class="capitalize center"><a href="{{url_for('current_topic', topic_id = comment._id)}}">{{comment.topic_title}}</a></p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col s12 center">
+        <p>You haven't created any Topics</p>
+    </div>
+{% endif %}
+</div>
+<div class="row">
+    <h4 class="center">Change your profile picture here</h4>
+    <form method="POST" action="{{url_for('profile', username=user.username)}}">
+        <div class="row">
+            <div class="input-field col s12 m8 offset-m2">
+                <textarea id="user_image" name="user_image">{{user.user_image}}</textarea> 
+                <label for="username">Profile Picture</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 center">
+                <button type="submit" class="btn-large light-blue darken-1 text-shadow">
+                    Change Profile Picture <i class="fab fa-creative-commons-by right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endfor %}
 {% endblock %}
