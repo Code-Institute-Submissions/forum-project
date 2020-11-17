@@ -1,10 +1,10 @@
 {% extends 'base.html'%}
 {% block content %}
-<h4>Edit your comment!</h4>
+<h4 class="my-white">Edit your comment!</h4>
         <form method="POST">
             <div class="row">
                 <div class="input-field col s12">
-                    <textarea id="comment_text" name="comment_text" class="materialize-textarea" data-length="2000">{{comment.comment_text}}</textarea>
+                    <textarea id="comment_text" name="comment_text" class="materialize-textarea my-white" data-length="2000">{{comment.comment_text}}</textarea>
                     <label for="comment_text">Textarea</label>
                 </div>
             </div>

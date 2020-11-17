@@ -223,7 +223,7 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def page_not_found2(e):
-    flash("500 The page you were looking for was not found")
+    flash("500 Something went wrong")
     # note that we set the 404 status explicitly
     return redirect(url_for('home'))
 
@@ -231,4 +231,4 @@ def page_not_found2(e):
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=True)
+            debug=False)

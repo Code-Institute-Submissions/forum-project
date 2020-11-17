@@ -19,6 +19,57 @@
     width: 100%;
 }
 
+.full-height{
+    height: 100%;
+}
+
+/*--- colors ---*/
+
+.bg-color-black{
+    background-color: #161514;
+}
+
+.bg-color-grey{
+    background-color: #212121;
+}
+
+.my-red{
+    color: #BC0404;
+}
+
+.bg-color-orange{
+    background-color: #BC9C18;
+}
+
+.my-black{
+    color: #161514;
+}
+
+.my-grey{
+    color: #212121;
+}
+
+.nav-color{
+    background-color: #1A1A1A;
+}
+
+.my-yellow{
+    color: #F0BB2E;
+}
+
+.my-orange{
+    color: #BC9C18
+}
+
+.my-white{
+    color: #EDEBEB;
+}
+
+a{
+    color: #F0BB2E;
+}
+
+
 /*--- home ---*/
 
 .half-width,

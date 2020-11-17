@@ -3,8 +3,8 @@
 <div class="row">
     <div class="col s12">
         {% for catogory in catogory%}
-        <h3 class="capitalize">{{catogory.catogory}}</h3>
-            <table>
+        <h3 class="my-white capitalize">{{catogory.catogory}}</h3>
+            <table class="my-white">
                 <tr>
                     <th class="topic-title">Topic Title</th>
                     <th class="topic-info">Topic Author</th>
@@ -15,7 +15,7 @@
                 {% if topic.catogory == catogory.catogory %}
                 <tr>
                     <td>
-                        <a name="topic_title" href="{{ url_for('current_topic', topic_id = topic._id)}}"><p class="capitalize">{{topic.topic_title}}</p></a>
+                        <a class="my-yellow" name="topic_title" href="{{ url_for('current_topic', topic_id = topic._id)}}"><p class="capitalize">{{topic.topic_title}}</p></a>
                     </td>
                     <td>
                         <p class="capitalize">{{topic.username}}</p>
@@ -31,10 +31,12 @@
             {% endfor %}
                     </table>          
         {% endfor %}
-        {% if session['user'] %}
-        <a href="{{url_for('create_topic')}}" class="waves-effect waves-light btn-large">Create a Topic!</a>
+    </div>
+    <div class="col s12 center">
+    {% if session['user'] %}
+            <a href="{{url_for('create_topic')}}" class="my-grey bg-color-orange center btn">Create a Topic!</a>
         {% else %}
-        <p>You must be logged in to create a Topic.<a href="{{url_for('login')}}">  Log in here!</a></p>
+            <p class="my-white">You must be logged in to create a Topic.<a href="{{url_for('login')}}">  Log in here!</a></p>
         {% endif %}
     </div>
 </div>
