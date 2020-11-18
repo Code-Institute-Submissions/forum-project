@@ -25,7 +25,9 @@ def home():
     Home page, Gets all topics and categories
     """
     catogories = list(mongo.db.catogories.find())
-    topics = list(mongo.db.Topics.find())
+    topicsz = list(mongo.db.Topics.find())
+    topics = topicsz.sort('last_edited')
+    print(topics)
     return render_template("home.html", topics=topics, catogories=catogories)
 
 
@@ -36,6 +38,8 @@ def catogory(catogory_id):
     """
     catogories = list(mongo.db.catogories.find({"_id": ObjectId(catogory_id)}))
     topics = list(mongo.db.Topics.find())
+    topics.sort('last_edited')
+    print(topics)
     return render_template("catogory.html", catogory=catogories, topics=topics)
 
 

@@ -53,6 +53,7 @@
     background-color: #1A1A1A;
 }
 
+a,
 .my-yellow{
     color: #F0BB2E;
 }
@@ -64,11 +65,6 @@
 .my-white{
     color: #EDEBEB;
 }
-
-a{
-    color: #F0BB2E;
-}
-
 
 /*--- home ---*/
 
@@ -85,9 +81,6 @@ a{
     width: 12.5%
 }
 
-.avatar-picture{
-    width: 50%;
-}
 
 /*--- topic.html ---*/
 
@@ -114,4 +107,8 @@ pre {
 
 .last-edited{
     font-size: 0.7em;
+}
+
+.avatar-picture{
+    width: 50%;
 }
