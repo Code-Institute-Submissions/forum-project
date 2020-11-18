@@ -3,37 +3,40 @@
 <div class="row">
     <div class="col s12">
         {% for catogory in catogory%}
-        <h3 class="my-white capitalize">{{catogory.catogory}}</h3>
+        <!-- Catogory header-->
+            <h3 class="my-white capitalize">{{catogory.catogory}}</h3>
             <table class="my-white">
                 <tr>
                     <th class="topic-title">Topic Title</th>
                     <th class="topic-info">Topic Author</th>
                     <th class="topic-info-secondary">Time last editted</th>
                     <th class="topic-info-secondary">Comments</th>
-                </tr>        
+                </tr>
+                <!-- Table.Topics info -->        
                 {% for topic in topics%}    
-                {% if topic.catogory == catogory.catogory %}
-                <tr>
-                    <td>
-                        <a class="my-yellow" name="topic_title" href="{{ url_for('current_topic', topic_id = topic._id)}}"><p class="capitalize">{{topic.topic_title}}</p></a>
-                    </td>
-                    <td>
-                        <p class="capitalize">{{topic.username}}</p>
-                    </td>
-                    <td>
-                        <p>{{topic.last_edited.strftime('%d/%m/%Y %H:%M')}}</p>
-                    </td>
-                    <td>
-                        {{topic.posts}}
-                    </td>
-                </tr>                            
-                {% endif%}
-            {% endfor %}
-                    </table>          
+                    {% if topic.catogory == catogory.catogory %}
+                        <tr>
+                            <td>
+                                <a class="my-yellow" name="topic_title" href="{{ url_for('current_topic', topic_id = topic._id)}}"><p class="capitalize">{{topic.topic_title}}</p></a>
+                            </td>
+                            <td>
+                                <p class="capitalize">{{topic.username}}</p>
+                            </td>
+                            <td>
+                                <p>{{topic.last_edited.strftime('%d/%m/%Y %H:%M')}}</p>
+                            </td>
+                            <td>
+                                {{topic.posts}}
+                            </td>
+                        </tr>                            
+                    {% endif%}
+                {% endfor %}
+            </table>          
         {% endfor %}
     </div>
+    <!-- Create Topic -->
     <div class="col s12 center">
-    {% if session['user'] %}
+        {% if session['user'] %}
             <a href="{{url_for('create_topic')}}" class="my-grey bg-color-orange center btn">Create a Topic!</a>
         {% else %}
             <p class="my-white">You must be logged in to create a Topic.<a href="{{url_for('login')}}">  Log in here!</a></p>

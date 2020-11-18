@@ -1,37 +1,41 @@
 {% extends 'base.html'%}
 {% block content%}
-<div class="row">
-    <div class="col s12">
-        <h3 class="center my-white">Register</h3>
+    <div class="row">
+        <div class="col s12">
+            <h3 class="center my-white">Register</h3>
+        </div>
     </div>
-</div>
-<div class="row">
-    <form method="POST" action="{{url_for('register')}}">
-        <div class="row" >
-            <div class="input-field col s12 m8 offset-m2">
-                <input id="username" name="username" type="text" class="validate my-white" required minlength="5" maxlength="25"> 
-                <label for="username">Username</label>
+    <div class="row">
+        <form method="POST" action="{{url_for('register')}}">
+        <!-- Username -->
+            <div class="row" >
+                <div class="input-field col s12 m8 offset-m2">
+                    <input id="username" name="username" type="text" class="validate my-white" required minlength="5" maxlength="25"> 
+                    <label for="username">Username</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12 m8 offset-m2">
-                <input id="password" type="password" class="validate my-white" name="password" required minlength="5" maxlength="25">
-                <label for="password">Password</label>
+            <!-- Password -->
+            <div class="row">
+                <div class="input-field col s12 m8 offset-m2">
+                    <input id="password" type="password" class="validate my-white" name="password" required minlength="5" maxlength="25">
+                    <label for="password">Password</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12 m8 offset-m2">
-                <input id="user_image" name="user_image" type="text" class="my-white"> 
-                <label for="username">Profile Picture (optional)</label>
+            <!-- User Image -->
+            <div class="row">
+                <div class="input-field col s12 m8 offset-m2">
+                    <input id="user_image" name="user_image" type="text" class="my-white"> 
+                    <label for="username">Profile Picture (optional)</label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s12 center">
-                <button type="submit" class="btn-large light-blue darken-1 text-shadow">
-                    Register <i class="fab fa-creative-commons-by right"></i>
-                </button>
+            <!-- Submit -->
+            <div class="row">
+                <div class="col s12 center">
+                    <button type="submit" class="btn-large light-blue darken-1 text-shadow">
+                        Register <i class="fab fa-creative-commons-by right"></i>
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock %}

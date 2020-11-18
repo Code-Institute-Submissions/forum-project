@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% block content %}
 {% for user in username %}
+<!-- User image -->
 <div class="row">
     <div class="col s12 m8 offset-m2 center">
         <h1 class="capitalize my-white">{{user.username}}</h1>
@@ -11,6 +12,7 @@
         {% endif %}
     </div>
 </div>
+<!-- session user created topics -->
 <div class="row">
 <div class="col s12">
     <h4 class="center my-white">Your Topics</h4>
@@ -27,6 +29,7 @@
     </div>
 {% endif %}
 </div>
+<!-- Change Photo -->
 <div class="row">
     <h4 class="center my-white">Change your profile picture here</h4>
     <form method="POST" action="{{url_for('profile', username=user.username)}}">

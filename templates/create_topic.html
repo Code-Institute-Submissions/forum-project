@@ -10,14 +10,17 @@
                 <option name="catogory" class="my-white" value="{{catogory.catogory}}"><span class="my-white">{{catogory.catogory}}</span></option>
                 {% endfor %}
             </select>
+            <!-- New topic title -->
             <div>
                 <input placeholder="your topic title" id="topic_title" name="topic_title" type="text" class="validate my-white" required>
                 <label for="topic_title">Topic title</label>
             </div>
+            <!-- First comment of the new topic -->
             <div>                
                 <textarea id="new_comment" name="new_comment" class="materialize-textarea my-white" data-length="2000" required></textarea>
                 <label for="new_comment">Textarea</label>
             </div>
+            <!-- submit button -->
             <div>   
                 <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                     <i class="material-icons right">send</i>

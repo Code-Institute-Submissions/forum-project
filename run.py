@@ -21,6 +21,9 @@ mongo = PyMongo(app)
 @app.route("/")
 @app.route("/home")
 def home():
+    """
+    Home page, Gets all topics and categories
+    """
     catogories = list(mongo.db.catogories.find())
     topics = list(mongo.db.Topics.find())
     return render_template("home.html", topics=topics, catogories=catogories)
@@ -28,6 +31,9 @@ def home():
 
 @app.route("/catogory/<catogory_id>")
 def catogory(catogory_id):
+    """
+    Gets all topics from the selected category
+    """
     catogories = list(mongo.db.catogories.find({"_id": ObjectId(catogory_id)}))
     topics = list(mongo.db.Topics.find())
     return render_template("catogory.html", catogory=catogories, topics=topics)
@@ -35,6 +41,11 @@ def catogory(catogory_id):
 
 @app.route("/current_topic/<topic_id>", methods=['GET', 'POST'])
 def current_topic(topic_id):
+    """
+    Gets selected topic and renders to topic.html
+    If a comment is posted
+    Adds comment to the Database and updates topic
+    """
     if request.method == 'POST':
         if session['user']:
             now = datetime.now()
@@ -49,6 +60,7 @@ def current_topic(topic_id):
                 {"_id": ObjectId(topic_id)},
                 {"$set": {"last_edited": now},
                  "$inc": {"posts": 1}})
+            flash("Comment posted succesfully")
             return redirect(url_for('home'))
         else:
             return redirect(url_for('login'))
@@ -62,6 +74,10 @@ def current_topic(topic_id):
 
 @app.route('/create_topic', methods=['GET', 'POST'])
 def create_topic():
+    """
+    Creates a topic if the from is submitted
+    And checks if the topic already exists
+    """
     if request.method == 'POST':
         # checks if topic doesnt already exists
         existing_topic = mongo.db.Topics.find_one(
@@ -99,6 +115,9 @@ def create_topic():
 
 @app.route("/edit_comment/<comment_id>", methods=["POST", "GET"])
 def edit_comment(comment_id):
+    """
+    Updates comment if form is submitted
+    """
     current_comment = mongo.db.comments.find_one({"_id": ObjectId(comment_id)})
     if request.method == "POST":
         now = datetime.now()
@@ -119,6 +138,9 @@ def edit_comment(comment_id):
 
 @app.route("/delete_comment/<comment_id>/<topic_id>")
 def delete_comment(comment_id, topic_id):
+    """
+    Deletes comment and changes posts field from topics accordingly
+    """
     now = datetime.now()
     mongo.db.Topics.update(
         {"_id": ObjectId(topic_id)},
@@ -186,13 +208,15 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    # grab the session user's username from db
+    """
+    Finds the session user and its created topics
+    If the form is submitted the userimage of this user will change
+    """
     if session["user"]:
         current_username = list(mongo.db.users.find(
              {"username": session["user"]}))
         user_comments = list(mongo.db.Topics.find({
                              "username": session["user"]}))
-        print(user_comments)
         if request.method == "POST":
             mongo.db.users.update({"username": session['user']},
                                   {"$set": {"user_image":
@@ -216,15 +240,21 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """
+    In case of a 404 error we sent a flash message to the user
+    and redirect them to the homepage
+    """
     flash("404 The page you were looking for was not found")
-    # note that we set the 404 status explicitly
     return redirect(url_for('home'))
 
 
 @app.errorhandler(500)
 def page_not_found2(e):
+    """
+    In case of a 500 error we sent a flash message to the user
+    and redirect them to the homepage
+    """
     flash("500 Something went wrong")
-    # note that we set the 404 status explicitly
     return redirect(url_for('home'))
 
 
