@@ -1,1 +1,1 @@
-web: Python run.py:application
+web: python run.py
