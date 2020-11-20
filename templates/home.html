@@ -5,7 +5,7 @@
         <ul class="collapsible expandable bg-color-grey">
             <!-- Category Header -->
             {% for catogory in catogories%}
-                <li class="active my-white">
+                <li class="active my-white no-display-mobile">
                     <div class="collapsible-header  bg-color-grey">
                         <a name="{{catogory}}" class="capitalize" href="{{url_for('catogory', catogory_id = catogory._id)}}">
                             <h4>{{catogory.catogory}}</h4>
@@ -13,7 +13,7 @@
                     </div>
                     <div class="collapsible-body">
                         <!-- Table headers -->
-                        <table>
+                        <table class="">
                             <tr>
                                 <th class="topic-title">Topic Title</th>
                                 <th class="topic-info">Topic Author</th>
@@ -39,7 +39,33 @@
                                     </tr>                   
                                 {% endif%}
                             {% endfor %}
-                        </table>                   
+                        </table>
+                    </div>
+                </li>
+            {% endfor %}        
+            <!-- Category Header -->
+            {% for catogory in catogories%}
+                <li class="active my-white hide-on-med-and-up">
+                    <div class="collapsible-header  bg-color-grey">
+                        <a name="{{catogory}}" class="capitalize" href="{{url_for('catogory', catogory_id = catogory._id)}}">
+                            <h4>{{catogory.catogory}}</h4>
+                        </a>
+                    </div>
+                    <div class="collapsible-body">
+                        <!-- Table headers -->
+                        <table>
+                            <!-- Table topic info -->
+                            {% for topic in topics %}    
+                                {% if topic.catogory == catogory.catogory %}
+                                <div class="col s12">
+                                    <h5 class="my-yellow"><a name="topic_title" href="{{ url_for('current_topic', topic_id = topic._id)}}">{{topic.topic_title}}</a></h5>
+                                    <div class="col s6"><p><strong>Author</strong></p></div><div class="col s6"><p>{{topic.username}}</p></div>
+                                    <div class="col s6"><p><strong>Comments</strong></p></div><div class="col s6"><p>{{topic.posts}}</p></div>
+                                    <div class="col s6"><p><strong>Date edited</strong></p></div><div class="col s6"><p>{{topic.last_edited.strftime('%d/%m/%Y %H:%M')}}</p></div>                               
+                                </div>
+                                {% endif%}
+                            {% endfor %}
+                        </table>
                     </div>
                 </li>
             {% endfor %}        
@@ -49,11 +75,10 @@
 {% endblock %}
 {% block scripts %}
 <!-- Collapsible script -->
-    <script>
-document.addEventListener("DOMContentLoaded", (event) => {
-    var elem = document.querySelector('.collapsible.expandable');
-    var instance = M.Collapsible.init(elem, {
-    accordion: false
-})});        
+<script>
+var elem = document.querySelector('.collapsible.expandable');
+var instance = M.Collapsible.init(elem, {
+  accordion: false
+});
 </script>
 {% endblock %}

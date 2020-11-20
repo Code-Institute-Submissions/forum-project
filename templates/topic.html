@@ -13,9 +13,9 @@
         {% for users in users %}
             {% if comment.user_id == users.username %}
                 {% if users.user_image %}
-                    <div class="col s2 user-avatar center"><img src="{{users.user_image}}" alt="avatar picture" class="avatar-picture">
+                    <div class="col s3 m2 user-avatar center"><img src="{{users.user_image}}" alt="avatar picture" class="avatar-picture">
                 {% else %}
-                    <div class="col s2 user-avatar center"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
+                    <div class="col s3 m2 user-avatar center"><img src="http://static.asianetnews.com/img/default-user-avatar.png" alt="avatar picture" class="avatar-picture">
                 {% endif%}
             {% endif %}
         {% endfor %}
@@ -24,7 +24,7 @@
             </div>
         </div>
         <!-- Comments -->
-        <div class="col s10 comments">
+        <div class="col s9 m10 comments">
             <div class="row">
                 <pre class="col s12 m10 comment-text full-width">{{comment.comment_text}}</pre>
                 {% if session['user'] == comment.user_id %}
@@ -60,18 +60,8 @@
         {% endif %}
     </div>
 </div>
-<div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>Are you sure you want to delete comment?</h4>
-      <p>you are about to delete your comment permanently</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-</div>
 {% endblock %}
 {% block scripts %}
-
 <script>
     $(document).ready(function(){
         $(".modal-trigger").click(function(){

@@ -112,3 +112,14 @@ pre {
 .avatar-picture{
     width: 50%;
 }
+
+@media screen and (max-width: 600px) {
+  .no-display-mobile {
+    display: none;
+  }
+}
+@media only screen and (min-width: 600px) {
+    .no-display-pc{
+        display: none;
+    }
+}
