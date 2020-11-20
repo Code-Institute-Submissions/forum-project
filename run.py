@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from flask import (Flask, flash, render_template,
                    redirect, request, session, url_for)
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
@@ -25,7 +25,8 @@ def home():
     Home page, Gets all topics and categories
     """
     catogories = list(mongo.db.catogories.find())
-    topics = list(mongo.db.Topics.find())
+    topics = list(mongo.db.Topics.find().sort("last_edited",
+                                              pymongo.DESCENDING).limit(20))
     return render_template("home.html", topics=topics, catogories=catogories)
 
 
@@ -34,8 +35,11 @@ def catogory(catogory_id):
     """
     Gets all topics from the selected category
     """
+    catogoryname = mongo.db.catogories.find_one({"_id": ObjectId(catogory_id)}
+                                                )['catogory']
     catogories = list(mongo.db.catogories.find({"_id": ObjectId(catogory_id)}))
-    topics = list(mongo.db.Topics.find())
+    topics = list(mongo.db.Topics.find({"catogory": catogoryname}).
+                  sort("last_edited", pymongo.DESCENDING))
     return render_template("catogory.html", catogory=catogories, topics=topics)
 
 
@@ -179,6 +183,9 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Functionality to log in
+    """
     if request.method == "POST":
         # check if username exists in db
         existing_user = mongo.db.users.find_one(
@@ -261,4 +268,4 @@ def page_not_found2(e):
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=False)
+            debug=True)
