@@ -136,7 +136,7 @@ def edit_comment(comment_id):
              }
         )
         flash("Comment has been edited")
-        return redirect(url_for("home"))
+        return redirect(url_for("current_topic"))
     return render_template("edit_comment.html", comment=current_comment)
 
 
@@ -152,7 +152,7 @@ def delete_comment(comment_id, topic_id):
          "$inc": {"posts": -1}})
     mongo.db.comments.delete_one({"_id": ObjectId(comment_id)})
     flash("Comment deleted")
-    return redirect(url_for("home"))
+    return redirect(url_for("current_topic", ObjectId(topic_id)))
 
 
 @app.route("/register", methods=["GET", "POST"])

@@ -79,8 +79,13 @@ I filled out the register page with multiple times with different condition to c
 	If you can change your profile picture
 	If your own username is displayed
 
+### Browser Testing
+    Checked if everything works on mobile, tablet and pc as intended with the following browsers:
+    - Safari
+    - Microsoft Edge
+    - Firefox
+    - Chrome
 
-	
 
 ### Deployment
 
